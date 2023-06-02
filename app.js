@@ -1,5 +1,5 @@
 //empty array to stored items
-let todoList = [];
+let todoList = JSON.parse(localStorage.getItem(`todoList`)) || [];
 
 //whole form tag
 let form = document.querySelector('.Todoform')
@@ -7,8 +7,10 @@ let form = document.querySelector('.Todoform')
 //add button to add item
 let addBtn = document.querySelector('.buttunAdd')
 
-//ul ti add item in li
+//ul to add item in li
 let TodoItem =  document.querySelector('.todoItem')
+//paragraph for alert 
+let paraAlert = document.querySelector('.alert')
 
 //graping input 
 //push value into TodoList,,array
@@ -31,9 +33,10 @@ function creatList (valueOfInput,TodoIndex){
     list.setAttribute('class','list');
     list.innerText = valueOfInput;
 
-    //get completed true anf false
+    //get completed true and false
+
     list.addEventListener('click',()=>{
-        if(todoList[TodoIndex].completed === true)
+        if(todoList[TodoIndex].completed = true)
         {
             todoList[TodoIndex].completed = false
             list.classList.remove("bgcolor")
@@ -44,10 +47,9 @@ function creatList (valueOfInput,TodoIndex){
         }
         localStorage.setItem("todoList" , JSON.stringify(todoList))
         // console.log(todoList[TodoIndex])
-
     })
     //creat div to insert edit and delete button 
-    var divBox = document
+    // var divBox = document
     //creat delete icon
     var icon = document.createElement('i')
     icon.setAttribute('class','fa-regular fa-trash-can')
@@ -59,8 +61,10 @@ function creatList (valueOfInput,TodoIndex){
     list.appendChild(edit)
 
 
+// *********deleting function 
     icon.addEventListener('click',(event)=>{
         event.stopPropagation();
+        paraAlert.textContent = " you deleted an item "
         //remove from DOM
        event.target.parentElement.remove()
         //remove from array
@@ -78,37 +82,41 @@ function renderTodo (todoList ){
         TodoItem.appendChild(list)
     });
 }
+console.log(form.todoName.value)
 
 addBtn.addEventListener('click',(e)=>{
-    // if(form.todoName.value != ""){
-    // }
     e.preventDefault() 
-    // store into a variable to reuse it
-    
-    let valueOfInput = form.todoName.value
-    
-    //push into an array with an object form
-    todoList.push({
-        value: valueOfInput,
-        completed: false,
-    })
-    
-    //save items into localStorage 
-    //and json.stingify to make object into string
-    localStorage.setItem("todoList" , JSON.stringify(todoList))
-    //empty an input field
-    form.todoName.value = "" 
-    
-    //creat li item were stored
-    //set inner html
-    //set class 
-    // let list = document.createElement('li')
-    // list.innerText = valueOfInput;
-    // list.setAttribute('class','list');
-    var list = creatList(valueOfInput, todoList.length - 1 )
-    TodoItem.appendChild(list)
-    console.log(todoList.length-1)
-    
-    
+    if(form.todoName.value === ""){
+        paraAlert.textContent = `pleas write down your work todo`
+    }else{
+
+        // store into a variable to reuse it
+        
+        var valueOfInput = form.todoName.value
+        
+        //push into an array with an object form
+        todoList.push({
+            value: valueOfInput,
+            completed: false,
+        })
+        
+        //save items into localStorage 
+        //and json.stingify to make object into string
+        localStorage.setItem("todoList" , JSON.stringify(todoList))
+        //empty an input field
+        form.todoName.value = "" 
+        
+        //creat li item were stored
+        //set inner html
+        //set class 
+        // let list = document.createElement('li')
+        // list.innerText = valueOfInput;
+        // list.setAttribute('class','list');
+        var list = creatList(valueOfInput, todoList.length - 1 )
+        TodoItem.appendChild(list)
+        // console.log(todoList.length)
+        
+        
+    }
 })
 

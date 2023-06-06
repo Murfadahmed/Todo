@@ -63,15 +63,15 @@ function creatList (valueOfInput,TodoIndex){
 
 // *********deleting function 
     icon.addEventListener('click',(event)=>{
-        event.stopPropagation();
+        // event.stopPropagation();
         paraAlert.textContent = " you deleted an item "
         //remove from DOM
        event.target.parentElement.remove()
         //remove from array
         todoList.splice(TodoIndex,1);
         // remove from local storage
-        localStorage.setItem("todoList" , JSON.stringify(todoList))
     })
+    localStorage.setItem("todoList" , JSON.stringify(todoList))
     
     return list;
 }
